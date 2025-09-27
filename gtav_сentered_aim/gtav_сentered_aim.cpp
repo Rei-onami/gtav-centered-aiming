@@ -16,7 +16,7 @@
 //bool showUI = true;
 bool modEnabled = true;
 int controlSwapCam = 51; // кнопка для спавна/удаления блока камеры
-const char* camBlockModelName = "prop_flatscreen_overlay";  //"prop_barrel_03a"; prop_fncwood_16c prop_box_tea01a prop_cs_rub_box_01
+const char* camBlockModelName = "prop_tv_flat_01_screen";  //"prop_barrel_03a"; prop_fncwood_16c prop_box_tea01a prop_cs_rub_box_01
 float camBlockOffsetX = 0.32f; // смещение справа от игрока
 float camBlockOffsetY = 0.79f; //вверх
 float camBlockOffsetZ = 0.0f;// смещение вперед
@@ -193,19 +193,11 @@ void ScriptMain() {
 
 
 // Стандартная точка входа ASI-плагина
-BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID) {
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
     switch (ul_reason_for_call) {
-    case DLL_PROCESS_ATTACH: {
-        // Получаем путь к нашему .asi и собираем рядом EnhancedCamera.ini
-        char modulePath[MAX_PATH] = { 0 };
-        GetModuleFileNameA(hModule, modulePath, MAX_PATH);
-        std::string dir(modulePath);
-        size_t p = dir.find_last_of("\\/");
-        if (p != std::string::npos) dir.erase(p);
-
+    case DLL_PROCESS_ATTACH:
         scriptRegister(hModule, ScriptMain);
         break;
-    }
     case DLL_PROCESS_DETACH:
         scriptUnregister(hModule);
         break;

@@ -15,15 +15,15 @@ static std::string iniPath; // <- полный путь к INI
 
 
 bool modEnabled = true;
-int controlSwapCam = 174; // кнопка для спавна/удаления блока камеры 51
-float headingAngle = 65.0f; // 90 поворот вокруг Z (горизонтальный)74 100 много
-float pitchAngle = 75.0f; // поворот вокруг X (наклон вертикальный)90
+int controlSwapCam = 45; // reload кнопка для спавна/удаления блока камеры 51 174
+float headingAngle = 55.0f; // 90 поворот вокруг Z (горизонтальный)74 100 много 65 ок
+float pitchAngle = 80.0f; // поворот вокруг X (наклон вертикальный)90залезает 75незалезает
 
 const char* camBlockModelName = "p_cs_laptop_02_w";  //"prop_barrel_03a"; prop_fncwood_16c prop_box_tea01a prop_cs_rub_box_01
 float camBlockOffsetX = 0.32f; // смещение справа от игрока 0,4
 float camBlockOffsetY = 0.75f; //вверх
-float camBlockOffsetZ = -0.04f;// смещение вперед 00 0.5много
-float offsetZ = 0.68f; //вверх0.79f
+float camBlockOffsetZ = -0.045f;// смещение вперед 00 0.5много 0,04 мало
+float offsetZ = 0.66f; //вверх0.79f ,68 69 67
 //float currentOffsetX = 0.0f;
 //float startOffsetX = 0.0f;
 
@@ -144,7 +144,7 @@ Entity CreateCamBlock(Ped player) {
     //currentOffsetX = startOffsetX;
     //moveStartTime = std::chrono::steady_clock::now();
 
-    Vector3 offset = {camBlockOffsetX, camBlockOffsetY, camBlockOffsetZ};
+    Vector3 offset = { camBlockOffsetX, camBlockOffsetY, camBlockOffsetZ };
     Vector3 spawn = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(player, offset.x, offset.y, offset.z);
 
     Entity obj = OBJECT::CREATE_OBJECT(modelHash, spawn.x, spawn.y, spawn.z + offsetZ, TRUE, TRUE, FALSE);
@@ -154,10 +154,14 @@ Entity CreateCamBlock(Ped player) {
     // 🔹 делаем объект невидимым
     ENTITY::SET_ENTITY_VISIBLE(obj, FALSE, FALSE);
     // 🔹 включаем коллизию только для камеры, но НЕ для физики педов/машин
-    ENTITY::SET_ENTITY_COLLISION(obj, TRUE, FALSE);
+    //ENTITY::SET_ENTITY_COLLISION(obj, TRUE, FALSE камера блокается, стены клипуют); (FALSE FALSE камера клипует все клипует)
+    ENTITY::SET_ENTITY_COLLISION(obj, TRUE, TRUE);
     // 🔹 игнорируем столкновения с игроком
-    ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(obj, player, FALSE);
+    ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(obj, player, TRUE);
+    ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(player, obj, TRUE);
     ENTITY::FREEZE_ENTITY_POSITION(obj, TRUE);
+
+
 
     //устанавливаем начальное вращение (pitch + heading)
     float initialHeading = ENTITY::GET_ENTITY_HEADING(player) + headingAngle;
@@ -184,7 +188,7 @@ void UpdateCamBlockPosition(Ped player) {
     if (!camBlockActive || camBlockEntity == 0) return;
 
 
-    Vector3 offset = {camBlockOffsetX, camBlockOffsetY, camBlockOffsetZ };
+    Vector3 offset = { camBlockOffsetX, camBlockOffsetY, camBlockOffsetZ };
     Vector3 pos = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(player, offset.x, offset.y, offset.z + offsetZ);
 
     ENTITY::SET_ENTITY_COORDS_NO_OFFSET(camBlockEntity, pos.x, pos.y, pos.z, TRUE, TRUE, TRUE);

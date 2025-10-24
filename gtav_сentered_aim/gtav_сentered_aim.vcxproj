@@ -136,9 +136,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="gtav_сentered_aim.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="inc\enums.h" />
     <ClInclude Include="inc\keyboard.h" />
     <ClInclude Include="inc\main.h" />
@@ -150,6 +147,9 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\ScriptHookV.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="gtav_сentered_aim.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

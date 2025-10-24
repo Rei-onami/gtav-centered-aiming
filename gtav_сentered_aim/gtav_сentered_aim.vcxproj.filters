@@ -15,11 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="gtav_сentered_aim.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="inc\enums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -47,5 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\ScriptHookV.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="gtav_сentered_aim.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
